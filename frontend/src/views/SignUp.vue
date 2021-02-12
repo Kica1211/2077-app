@@ -1,10 +1,49 @@
 <template>
-    <div class="signUp-wrapper">
-        SignUp
+    <div class="signUp-wrapper" @submit.prevent="signUp">
+        <form>
+            <div class="error" v-if="state.error">Please enter the valid data</div>
+            <div class="singleInput"><label for="username">Username</label> <input id="username" type="text" v-model="state.credentials.username" /></div>
+            <div class="singleInput"><label for="email">Email</label> <input id="email" type="email" v-model="state.credentials.email" /></div>
+            <div class="singleInput"><label for="password">Password</label> <input id="password" type="password" v-model="state.credentials.password" /></div>
+            <div class="singleInput"><label for="confirm-password">Confirm password</label> <input id="confirm-password" type="password" v-model="state.credentials.password2" /></div>
+            <button class="signUp-button">Join to us!</button>
+        </form>
+        <button v-on:click="test">dsadasdasds</button>
     </div>
 </template>
 <script>
+import { reactive } from "vue";
+import { useStore } from "vuex";
+import router from "../router/index";
 export default {
-    name: "SignUp"
+    name: "SignUp",
+    setup() {
+        const store = useStore();
+        const state = reactive({
+            error: false,
+            credentials: {
+                username: "1me123",
+                email: "mkica@wp.pl",
+                password: "Barcelona10",
+                password2: "Barcelona10"
+            }
+        });
+        async function signUp() {
+            const feedback = await store.dispatch("auth_module/createUser", state.credentials);
+            if (feedback) {
+                router.push({ name: "LogIn", params: { message: "Now you can log in" } });
+            } else {
+                state.error = true;
+            }
+        }
+        function test() {
+            router.push({ name: "LogIn", params: { message: "Now you can log in" } });
+        }
+        return {
+            signUp,
+            state,
+            test
+        };
+    }
 };
 </script>

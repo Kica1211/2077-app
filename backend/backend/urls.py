@@ -30,7 +30,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('auth.urls')),
     path('', include(router.urls)),
-    path('api/', include('blog.urls'))
+    path('api/', include('blog.urls')),
+    path('gallery/', include('gallery.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

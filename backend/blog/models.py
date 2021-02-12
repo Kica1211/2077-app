@@ -9,9 +9,6 @@ class Category(models.Model):
         return self.name
 
 
-DEFAULT_USER_ID = 1
-
-
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
